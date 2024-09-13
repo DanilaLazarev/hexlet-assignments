@@ -16,19 +16,16 @@ public class PostsController {
     private List<Post> posts = Data.getPosts();
 
     @GetMapping("/users/{id}/posts")
-    public ResponseEntity<List<Post>> showPosts(@PathVariable("id") int id){
-        var filteredPosts = posts.stream().filter(x->x.getUserId()==id).toList();
-        return ResponseEntity.ok().body(filteredPosts);
+    public List<Post> showPosts(@PathVariable("id") int id){
+        return posts.stream().filter(x->x.getUserId()==id).toList();
     }
 
     @PostMapping("/users/{id}/posts")
-    public ResponseEntity<Post> createPost(@PathVariable("id") int id,@RequestBody Post post){
-        var newPost = new Post();
-        newPost.setUserId(id);
-        newPost.setTitle(post.getTitle());
-        newPost.setBody(post.getBody());
-        newPost.setSlug(post.getSlug());
-        return ResponseEntity.status(HttpStatus.CREATED).body(newPost);
+    @ResponseStatus(HttpStatus.CREATED)
+    public Post createPost(@PathVariable("id") int id,@RequestBody Post post){
+        post.setUserId(id);
+        posts.add(post);
+        return post;
     }
 }
 
