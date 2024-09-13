@@ -22,17 +22,13 @@ public class Application {
 
     // BEGIN
 
-    //В конфигурационном файле приложения в свойстве users.admins записаны email администраторов нашего ресурса.
-    // Добавьте в приложение обработчик, который при GET-запросе на адрес /admins вернет список имен администраторов.
-    // Список должен быть отсортирован по имени пользователя в прямом порядке.
     @Autowired
     private UserProperties admins;
 
     @GetMapping("/admins")
     public List<String> getAdmins(){
-        return admins.getAdmins().stream().sorted().toList();
+        return Data.getUsers().stream().filter(x->admins.getAdmins().contains(x.getEmail())).map(User::getName).sorted().toList();
     }
-
     // END
 
     @GetMapping("/users")
