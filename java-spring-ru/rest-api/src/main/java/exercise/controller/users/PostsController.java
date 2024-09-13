@@ -9,7 +9,6 @@ import exercise.model.Post;
 import exercise.Data;
 
 // BEGIN
-
 @RestController
 @RequestMapping("/api")
 public class PostsController {
